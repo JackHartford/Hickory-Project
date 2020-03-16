@@ -1,0 +1,20 @@
+{
+    'name': 'Product Variant Extension',
+    'version': '12.0.1.0.0',
+    'summary': "Alter the creation of product variants via attribute value pair",
+    'depends': ['product', 'base'],
+    'category': 'Warehouse',
+    'author': 'Confianz',
+    'maintainer': 'Confianz',
+    'company': 'Confianz',
+    'website': 'https://www.confianzit.com',
+    'data': [
+        'assets.xml',
+        'wizard/create_variant_view.xml',
+        'wizard/add_value_view.xml',
+        'views/product_template_view.xml',
+    ],
+    'license': "AGPL-3",
+    'installable': True,
+    'auto_install': False,
+}

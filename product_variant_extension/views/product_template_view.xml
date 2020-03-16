@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="vs_america_product_template_only_form_view" model="ir.ui.view">
+            <field name="name">product.template.common.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='attribute_line_ids']//tree/field[@name='attribute_id']" position="after">
+                    <field name="add_flag" class="oe_edit_only" widget="radio"/>
+                    <!--                    <field name="add_flag" widget="cboolean_button" />-->
+                </xpath>
+                <xpath expr="//field[@name='attribute_line_ids']//tree/field[@name='value_ids']" position="after">
+                    <field name="explode_flag"/>
+                    <field name="conditional"/>
+                </xpath>
+                <xpath expr="//page[@name='variants']//field[@name='attribute_line_ids']" position="before">
+                    <group>
+                        <button name="add_value_on_variant" string="Add Value"
+                                type="object" class="btn-primary"
+                                attrs="{'invisible':[('attribute_line_ids','=',[])]}"/>
+                    </group>
+                </xpath>
+                <xpath expr="//page[@name='variants']//field[@name='attribute_line_ids']" position="after">
+<!--                    <page string="Attribute Value Condition" name="add_value_condition">-->
+                    <group string="Attribute Value Condition">
+                        <field name="attribute_condition_ids" widget="one2many_list" nolabel="1">
+                            <tree editable="bottom" create="false">
+                                <field name="attribute_id"/>
+                                <field name="value_id" options="{'no_create_edit': True}"
+                                       domain="[('attribute_id', '=', attribute_id)]"
+                                       context="{'default_attribute_id': attribute_id}"/>
+                                <field name="attribute_value_ids"
+                                       domain="[('id', '!=', value_id),('attribute_id', '!=', attribute_id)]"
+                                       force_save="1" widget="many2many_tags"/>
+                            </tree>
+                        </field>
+                    </group>
+<!--                    </page>-->
+                </xpath>
+
+                <xpath expr="//header//button[1]" position="before">
+                    <button name="action_product_variants_create" string="Create Variants"
+                            type="object" class="btn-primary"
+                            attrs="{'invisible':[('attribute_line_ids','=',[])]}"/>
+
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
