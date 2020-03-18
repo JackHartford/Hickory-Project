@@ -9,12 +9,13 @@
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='attribute_line_ids']//tree/field[@name='attribute_id']" position="after">
-                    <field name="add_flag" class="oe_edit_only" widget="radio"/>
+                    <field name="add_flag"/>
+<!--                    <field name="add_flag" class="oe_edit_only" widget="radio"/>-->
                     <!--                    <field name="add_flag" widget="cboolean_button" />-->
                 </xpath>
                 <xpath expr="//field[@name='attribute_line_ids']//tree/field[@name='value_ids']" position="after">
                     <field name="explode_flag"/>
-                    <field name="conditional"/>
+                    <field name="conditional" readonly="1"/>
                 </xpath>
                 <xpath expr="//page[@name='variants']//field[@name='attribute_line_ids']" position="before">
                     <group>

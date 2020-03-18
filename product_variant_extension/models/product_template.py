@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 import odoo
-from odoo import api, fields, models, _
-import odoo.addons.web.controllers.main as main
-from odoo import http
-from odoo.http import request
+from odoo import api, fields, models, tools, _
+from odoo.exceptions import UserError
 
 
 class ProductTemplate(models.Model):
@@ -53,9 +51,20 @@ class ProductTemplateAttributeLine(models.Model):
     conditional = fields.Boolean(string="Conditional")
     processed = fields.Boolean(string="Processed")
 
+
     @api.multi
     def unlink(self):
         for rec in self:
+            if rec.value_ids:
+                variants = self.env['product.product'].search([('product_tmpl_id', '=', rec.product_tmpl_id.id),
+                                                               ('attribute_value_ids', 'in',
+                                                                [id.id for id in rec.value_ids])])
+                if variants:
+                    try:
+                        with self._cr.savepoint(), tools.mute_logger('odoo.sql_db'):
+                            variants.unlink()
+                    except Exception:
+                        variants.write({'active': False})
             if rec.conditional:
                 attribute_id = self.attribute_id.id
                 values = self.value_ids.ids
@@ -63,6 +72,29 @@ class ProductTemplateAttributeLine(models.Model):
                     lambda val: val.attribute_id.id == attribute_id and val.value_id.id in values)
                 records_to_unlink.unlink()
         return super(ProductTemplateAttributeLine, self).unlink()
+
+
+    @api.multi
+    def write(self, vals):
+        if 'attribute_id' in vals.keys():
+            if self.env['product.value.custom'].search([('product_id.product_tmpl_id', '=',self.product_tmpl_id.id),('attribute_id', '=',self.attribute_id.id)]):
+                raise UserError(_('You are not authorized to delete an attribute that already exists in Product'))
+        prv_values = self.value_ids.ids
+        res = super(ProductTemplateAttributeLine, self).write(vals)
+        current_values = self.value_ids.ids
+        if 'value_ids' in vals.keys():
+            deleted_list = (list(set(prv_values) - set(current_values)))
+            # print('deleted_list', deleted_list)
+            variants = self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id.id),
+                                                           ('attribute_value_ids', 'in', deleted_list)])
+            if variants:
+                try:
+                    with self._cr.savepoint(), tools.mute_logger('odoo.sql_db'):
+                        variants.unlink()
+                except Exception:
+                    variants.write({'active': False})
+        return res
+
 
 
     @api.multi
@@ -114,7 +146,7 @@ class ProductAttributeCondition(models.TransientModel):
     value_id = fields.Many2one('product.attribute.value', string="Values")
     attribute_id = fields.Many2one('product.attribute', string="Attribute")
     add_value_id = fields.Many2one('variant.add.value', string="Add Values")
-    product_id = fields.Many2one('product.product', string="Product")
+    product_id = fields.Many2one('product.template', string="Product")
     flg = fields.Boolean(string="flg")
 
 
