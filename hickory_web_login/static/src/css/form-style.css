@@ -1,0 +1,5 @@
+.oe_login_form > em, .o_login_auth > em{display: none !important;}
+.o_website_sale_search{display: none;}
+/*.oe_product section{position: relative;}
+.oe_product .oe_product_image{position: inherit;}
+#products_grid.col-lg-9 .oe-height-2 {height: 190px;}*/

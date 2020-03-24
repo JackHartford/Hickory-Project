@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="portal_my_details_extended" inherit_id="portal.portal_my_details">
+        <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[6]" position='attributes'>
+            <attribute name="t-attf-class" separator=" " add='d-none'/>
+        </xpath>
+        <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[7]" position='attributes'>
+            <attribute name="t-attf-class" separator=" " add='d-none'/>
+        </xpath>
+        <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[8]" position='attributes'>
+            <attribute name="t-attf-class" separator=" " add='d-none'/>
+        </xpath>
+        <!-- <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[9]" position='attributes'>
+            <attribute name="t-attf-class" separator=" " add='d-none'/>
+        </xpath>
+        <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[10]" position='attributes'>
+            <attribute name="t-attf-class" separator=" " add='d-none'/>
+        </xpath> -->
+        <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[11]" position='attributes'>
+            <attribute name="t-attf-class" separator=" " add='d-none'/>
+        </xpath>
+        <!-- <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[12]" position='attributes'>
+            <attribute name="t-attf-class" separator=" " add='d-none'/>
+        </xpath> -->
+        <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[13]" position='attributes'>
+            <attribute name="t-attf-class" separator=" " add='d-none'/>
+        </xpath>
+    </template>
+    <template id="custom_replace_paynow" inherit_id="website_sale.payment">
+        <xpath expr="//div[hasclass('js_payment')]/form/a/span" position='replace'>
+            <span >Process <span class="fa fa-chevron-right"></span></span>
+        </xpath>
+    </template>
+    <template inherit_id="payment.payment_tokens_list" id="payment_tokens_list_custom" name="Payment Tokens list">
+            <xpath expr="//div[hasclass('card')]" position="inside">
+                <t t-set="submit_txt">Process</t>
+            </xpath>
+        </template>
+</odoo>
