@@ -17,14 +17,14 @@
                 </header>
 
                 <!-- Add the additional header buttons for managing variants -->
-                <header position="inside">
-                    <button string="Drop All Variants" confirm="Are you sure you want to drop all variants?"
-                            name="action_drop_all_variants" type="object"
-                            attrs="{'invisible': ['|', ('product_variant_count', '&lt;=', 1)]}" groups="product.group_product_variant"/>
-                    <button string="Generate Variants"
-                            name="action_show_variant_creator" type="object"
-                            attrs="{'invisible': ['|', ('attribute_count', '=', 0)]}" groups="product.group_product_variant"/>
-                </header>
+<!--                <header position="inside">-->
+<!--                    <button string="Drop All Variants" confirm="Are you sure you want to drop all variants?"-->
+<!--                            name="action_drop_all_variants" type="object"-->
+<!--                            attrs="{'invisible': ['|', ('product_variant_count', '&lt;=', 1)]}" groups="product.group_product_variant"/>-->
+<!--                    <button string="Generate Variants"-->
+<!--                            name="action_show_variant_creator" type="object"-->
+<!--                            attrs="{'invisible': ['|', ('attribute_count', '=', 0)]}" groups="product.group_product_variant"/>-->
+<!--                </header>-->
             </field>
         </record>
     </data>

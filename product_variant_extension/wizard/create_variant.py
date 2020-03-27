@@ -68,25 +68,27 @@ class ProductVariantCreate(models.TransientModel):
                 allowed_combination = []
                 for line in template.attribute_condition_ids:
                     final_value_list = line.attribute_value_ids.ids
-                    # final_value_list.append(line.value_id.id)
+                    final_value_list.append(line.value_id.id)
                     allowed_combination.append(final_value_list)
                 allowed_combination = [i for n, i in enumerate(allowed_combination) if i not in allowed_combination[:n]]
 
-                for comb in allowed_combination:
-                    for line in template.attribute_condition_ids:
-                        if set(line.attribute_value_ids.ids).issubset(set(comb)):
-                            comb.append(line.value_id.id)
+                print('allowed_combination444444444444', allowed_combination)
 
-                allwd_dict = {}
-                allowed_val = copy.copy(allowed_combination)
-                product_att_val = self.env['product.attribute.value']
-                for comb in allowed_val:
-                    attribute_id = product_att_val.browse(comb[0]).attribute_id
-                    if attribute_id.id in allwd_dict:
-                        print('----------',allwd_dict)
-                        allwd_dict[attribute_id.id].append(comb)
-                    else:
-                        allwd_dict[attribute_id.id] = [comb]
+                # for comb in allowed_combination:
+                #     for line in template.attribute_condition_ids:
+                #         if set(line.attribute_value_ids.ids).issubset(set(comb)):
+                #             comb.append(line.value_id.id)
+                # print('allowed_combination', allowed_combination)
+                # allwd_dict = {}
+                # allowed_val = copy.copy(allowed_combination)
+                # product_att_val = self.env['product.attribute.value']
+                # for comb in allowed_val:
+                #     attribute_id = product_att_val.browse(comb[0]).attribute_id
+                #     if attribute_id.id in allwd_dict:
+                #         print('----------',allwd_dict)
+                #         allwd_dict[attribute_id.id].append(comb)
+                #     else:
+                #         allwd_dict[attribute_id.id] = [comb]
 
                 final_variants = copy.copy(all_variants)
 
@@ -98,6 +100,7 @@ class ProductVariantCreate(models.TransientModel):
                                 filtered_all_variants.append(value_ids)
                     filtered_all_variants = list(set(filtered_all_variants))
                     print('filtered_all_variants', filtered_all_variants)
+                    print('filtered_all_variants------------', len(filtered_all_variants))
                     final_variants = filtered_all_variants
 
                 for value_ids in final_variants:
@@ -115,14 +118,15 @@ class ProductVariantCreate(models.TransientModel):
                         sq_no += 1
 
                     if value_ids and value_ids not in existing_variants and template.attribute_condition_ids.ids:
-                        check_comb = []
-                        for allowed_comb in allwd_dict:
-                            if any(set(allowed_comb).issubset(set(value_ids_list)) for allowed_comb in
-                                   allwd_dict[allowed_comb]):
-                                check_comb.append(True)
+                        chk_flg =[]
+                        for allowed_comb in allowed_combination:
+                            print('value_ids_list', value_ids_list)
+                            print('allowed_comb', allowed_comb)
+                            if set(allowed_comb).issubset(set(value_ids_list)):
+                                chk_flg.append(True)
                             else:
-                                check_comb.append(False)
-                        if not (False in check_comb):
+                                chk_flg.append(False)
+                        if True in chk_flg:
                             variants_to_create.append((0, 0, {
                                 'sq_no': sq_no,
                                 'add_flag': True,
@@ -275,25 +279,25 @@ class ProductVariantCreate(models.TransientModel):
                 allowed_combination = []
                 for line in tmpl_id.attribute_condition_ids:
                     final_value_list = line.attribute_value_ids.ids
-                    # final_value_list.append(line.value_id.id)
+                    final_value_list.append(line.value_id.id)
                     allowed_combination.append(final_value_list)
                 allowed_combination = [i for n, i in enumerate(allowed_combination) if i not in allowed_combination[:n]]
 
-                for comb in allowed_combination:
-                    for line in tmpl_id.attribute_condition_ids:
-                        if set(line.attribute_value_ids.ids).issubset(set(comb)):
-                            comb.append(line.value_id.id)
-
-                allwd_dict = {}
-                allowed_val = copy.copy(allowed_combination)
-                product_att_val = self.env['product.attribute.value']
-                for comb in allowed_val:
-                    attribute_id = product_att_val.browse(comb[0]).attribute_id
-                    if attribute_id.id in allwd_dict:
-                        print('----------', allwd_dict)
-                        allwd_dict[attribute_id.id].append(comb)
-                    else:
-                        allwd_dict[attribute_id.id] = [comb]
+                # for comb in allowed_combination:
+                #     for line in tmpl_id.attribute_condition_ids:
+                #         if set(line.attribute_value_ids.ids).issubset(set(comb)):
+                #             comb.append(line.value_id.id)
+                #
+                # allwd_dict = {}
+                # allowed_val = copy.copy(allowed_combination)
+                # product_att_val = self.env['product.attribute.value']
+                # for comb in allowed_val:
+                #     attribute_id = product_att_val.browse(comb[0]).attribute_id
+                #     if attribute_id.id in allwd_dict:
+                #         print('----------', allwd_dict)
+                #         allwd_dict[attribute_id.id].append(comb)
+                #     else:
+                #         allwd_dict[attribute_id.id] = [comb]
 
                 final_variants = copy.copy(all_variants)
 
@@ -324,20 +328,21 @@ class ProductVariantCreate(models.TransientModel):
                             'active': tmpl_id.active,
                         })
 
-                    if value_ids and value_ids not in existing_variants and tmpl_id.attribute_condition_ids.ids and value_ids in to_create_variants_list:
-                        check_comb = []
-                        for allowed_comb in allwd_dict:
-                            if any(set(allowed_comb).issubset(set(value_ids_list)) for allowed_comb in
-                                   allwd_dict[allowed_comb]):
-                                check_comb.append(True)
+                    if value_ids and value_ids not in existing_variants and tmpl_id.attribute_condition_ids.ids:
+                        chk_flg = []
+                        for allowed_comb in allowed_combination:
+                            print('value_ids_list', value_ids_list)
+                            print('allowed_comb', allowed_comb)
+                            if set(allowed_comb).issubset(set(value_ids_list)):
+                                chk_flg.append(True)
                             else:
-                                check_comb.append(False)
-                        if not (False in check_comb):
-                            variants_to_create.append({
-                                'product_tmpl_id': tmpl_id.id,
-                                'attribute_value_ids': [(6, 0, list(value_ids))],
-                                'active': tmpl_id.active,
-                            })
+                                chk_flg.append(False)
+                        if True in chk_flg:
+                                variants_to_create.append({
+                                    'product_tmpl_id': tmpl_id.id,
+                                    'attribute_value_ids': [(6, 0, list(value_ids))],
+                                    'active': tmpl_id.active,
+                                })
 
 
             valid_value_ids = tmpl_id.valid_product_attribute_value_wnva_ids

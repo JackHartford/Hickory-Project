@@ -37,7 +37,7 @@ odoo.define('hickory_product_promotions.website_sale', function (require) {
                         $(this).removeClass('css_not_available');
 
                     } else {
-                        $(this).css('display', 'none');
+                        $(this).css('display', 'block');
                     }
                 });
             });
