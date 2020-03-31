@@ -15,20 +15,20 @@
             </xpath>
         </template>
 
-        <template id="hickory_web_login.fields" inherit_id="auth_signup.fields" name="Auth Signup/ResetPassword form fields">
-            <xpath expr="//div[2]" position="replace">
-                <div class="form-group field-name" style="display:none;">
-                    <label for="name">Your Name</label>
-                    <input type="text" name="name" t-att-value="name" id="name" class="form-control form-control-sm" placeholder="e.g. John Doe"
-                    t-att-readonly="'readonly' if only_passwords else None"
-                    t-att-autofocus="'autofocus' if login and not only_passwords else None" />
-            </div>
-               <!--  <div class="oe_login_form">
-                    <t t-call="auth_oauth.providers"/>
-                </div> -->
+<!--        <template id="hickory_web_login.fields" inherit_id="auth_signup.fields" name="Auth Signup/ResetPassword form fields">-->
+<!--            <xpath expr="//div[2]" position="replace">-->
+<!--                <div class="form-group field-name" style="display:none;">-->
+<!--                    <label for="name">Your Name</label>-->
+<!--                    <input type="text" name="name" t-att-value="name" id="name" class="form-control form-control-sm" placeholder="e.g. John Doe"-->
+<!--                    t-att-readonly="'readonly' if only_passwords else None"-->
+<!--                    t-att-autofocus="'autofocus' if login and not only_passwords else None" />-->
+<!--            </div>-->
+<!--               &lt;!&ndash;  <div class="oe_login_form">-->
+<!--                    <t t-call="auth_oauth.providers"/>-->
+<!--                </div> &ndash;&gt;-->
 
-            </xpath>
-        </template>
+<!--            </xpath>-->
+<!--        </template>-->
 
         <template id="auth_signup.login" inherit_id="web.login" name="Sign up - Reset Password">
             <xpath expr="//form" position="after">

@@ -92,7 +92,9 @@ class ProductVariantCreate(models.TransientModel):
 
                 final_variants = copy.copy(all_variants)
 
-                if any(not val.explode_flag for val in template.attribute_line_ids) and any(val.explode_flag for val in template.attribute_line_ids):
+                if any(not val.explode_flag for val in template.attribute_line_ids) and any(
+                        val.explode_flag for val in template.attribute_line_ids) and not len(
+                    template.attribute_line_ids.filtered(lambda val: val.explode_flag)) == 1:
                     filtered_all_variants = []
                     for value_ids in all_variants:
                         for existing_variant in existing_variants:
@@ -302,7 +304,8 @@ class ProductVariantCreate(models.TransientModel):
                 final_variants = copy.copy(all_variants)
 
                 if any(not val.explode_flag for val in tmpl_id.attribute_line_ids) and any(
-                        val.explode_flag for val in tmpl_id.attribute_line_ids):
+                        val.explode_flag for val in tmpl_id.attribute_line_ids) and not len(
+                    tmpl_id.attribute_line_ids.filtered(lambda val: val.explode_flag)) == 1:
                     filtered_all_variants = []
                     for value_ids in all_variants:
                         for existing_variant in existing_variants:

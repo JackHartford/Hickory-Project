@@ -9,6 +9,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from odoo.osv import expression
 from odoo.tools.misc import ustr
+from odoo.addons.auth_signup.models.res_users import SignupError
 
 class ResUsers(models.Model):
     _inherit = 'res.users'
