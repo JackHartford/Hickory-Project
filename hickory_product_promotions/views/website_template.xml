@@ -88,6 +88,18 @@
         </xpath>
     </template>
 
+    <template id="website_search_box_inherit" inherit_id="website.website_search_box" name="Website Searchbox">
+        <xpath expr="//div[hasclass('input-group')]" position="attributes">
+            <attribute name="style">display:none;</attribute>
+        </xpath>
+    </template>
+
+    <template id="website_sale.address_b2b" inherit_id="website_sale.address" name="Show b2b fields" customize_show="True" active="True">
+        <xpath expr="//div[@id='div_phone']" position="after">
+            <div class="w-100"/>
+        </xpath>
+    </template>
+
     <template id="product_page_inherit" inherit_id="website_sale.product" name="Product website page">
         <xpath expr="//section/div/div/p[@class='text-muted']" position="replace"/>
     </template>

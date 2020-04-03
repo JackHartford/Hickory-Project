@@ -1,4 +1,5 @@
 from odoo.addons.website_sale.controllers.main import WebsiteSale
+from odoo.addons.portal.controllers.portal import CustomerPortal
 from werkzeug.exceptions import Forbidden, NotFound
 import logging
 from odoo import http, tools, _
@@ -8,6 +9,8 @@ from odoo.addons.website.controllers.main import QueryURL
 from odoo.addons.auth_signup.controllers.main import AuthSignupHome
 from odoo.exceptions import UserError
 from odoo.addons.auth_signup.models.res_users import SignupError
+from odoo.http import content_disposition, Controller, request, route
+
 
 _logger = logging.getLogger(__name__)
 
@@ -80,6 +83,50 @@ class TableCompute(object):
             rows[col] = [r[1] for r in cols if r[1]]
 
         return rows
+
+
+class CustomerPortal(CustomerPortal):
+
+    @route(['/my/account'], type='http', auth='user', website=True)
+    def account(self, redirect=None, **post):
+        values = self._prepare_portal_layout_values()
+        partner = request.env.user.partner_id
+        values.update({
+            'error': {},
+            'error_message': [],
+        })
+
+        if post:
+            error, error_message = self.details_form_validate(post)
+            values.update({'error': error, 'error_message': error_message})
+            values.update(post)
+            if not error:
+                values = {key: post[key] for key in self.MANDATORY_BILLING_FIELDS}
+                values.update({key: post[key] for key in self.OPTIONAL_BILLING_FIELDS if key in post})
+                values.update({'zip': values.pop('zipcode', '')})
+                partner.sudo().write(values)
+                if redirect:
+                    return request.redirect(redirect)
+                return request.redirect('/my/home')
+
+        countries = request.env['res.country'].sudo().search([])
+        states = request.env['res.country.state'].sudo().search([])
+
+        values.update({
+            'partner': partner,
+            'countries': request.website.company_id.country_id or countries,
+            # 'countries': countries,
+            'states': states,
+            'has_check_vat': hasattr(request.env['res.partner'], 'check_vat'),
+            'redirect': redirect,
+            'page_name': 'my_details',
+        })
+
+        response = request.render("portal.portal_my_details", values)
+        response.headers['X-Frame-Options'] = 'DENY'
+        return response
+
+
 
 
 class WebsiteSale(WebsiteSale):

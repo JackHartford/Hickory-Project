@@ -1,5 +1,22 @@
 odoo.define('hickory_variant_explosion.process-checkout', function (require) {
     "use strict";
+
+    var PaymentRecord = require('payment.processing');
+    var Core = require('web.core');
+    var _t = Core._t;
+    PaymentRecord.include({
+        displayLoading: function () {
+            var msg = _t("Please wait ...");
+            $.blockUI({
+                'message': '<h2 class="text-white"><img src="/web/static/src/img/spin.png" class="fa-pulse"/>' +
+                    '    <br />' + msg +
+                    '</h2>'
+            });
+        },
+    });
+
+
+
     var OptionalProductsModal = require('sale.OptionalProductsModal');
     /*var weContext = require('web_editor.context');
     var sAnimations = require('website.content.snippets.animation');

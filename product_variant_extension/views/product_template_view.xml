@@ -15,18 +15,18 @@
                 </xpath>
                 <xpath expr="//field[@name='attribute_line_ids']//tree/field[@name='value_ids']" position="after">
 <!--                    <field name="explode_flag"/>-->
-                    <field name="conditional" readonly="1"/>
+                    <field name="conditional" readonly="1" invisible="1"/>
                 </xpath>
                 <xpath expr="//page[@name='variants']//field[@name='attribute_line_ids']" position="before">
                     <group>
-                        <button name="add_value_on_variant" string="Add Value"
+                        <button name="add_value_on_variant" string="Add Value"  invisible="1"
                                 type="object" class="btn-primary"
                                 attrs="{'invisible':[('attribute_line_ids','=',[])]}"/>
                     </group>
                 </xpath>
                 <xpath expr="//page[@name='variants']//field[@name='attribute_line_ids']" position="after">
 <!--                    <page string="Attribute Value Condition" name="add_value_condition">-->
-                    <group string="Attribute Value Condition">
+                    <group string="Attribute Value Condition"  invisible="1">
                         <field name="attribute_condition_ids" widget="one2many_list" nolabel="1">
                             <tree editable="bottom" create="false">
                                 <field name="attribute_id"/>
