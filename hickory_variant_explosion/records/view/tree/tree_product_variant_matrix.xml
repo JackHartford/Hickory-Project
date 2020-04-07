@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <record id="product_variant_matrix_line_tree" model="ir.ui.view">
+            <field name="name">product.variant.matrix.line.tree</field>
+            <field name="model">product.variant.matrix.line</field>
+            <field name="arch" type="xml">
+                <tree create="false" editable="bottom">
+                    <field name="valid_values" invisible="1"/>
+                    <field name="attribute_id" readonly="1" invisible="1"/>
+                    <field name="attribute_name" readonly="1"/>
+                    <field name="use"/>
+                    <field name="value_ids" widget="many2many_tags" domain="[('id', 'in', valid_values)]"
+                           attrs="{'readonly': [('use', '=', 'no_values')]}" options="{'no_create_edit': True}"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

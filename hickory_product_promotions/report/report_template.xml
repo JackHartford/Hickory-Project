@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="print_product_label_paperformat" model="report.paperformat">
+            <field name="name">Product label Report Paper Format</field>
+            <field name="format">custom</field>
+            <field name="page_height">51</field>
+            <field name="page_width">102</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+
+
+
+
+
+
+
+
+
+        <report
+            id="report_product_label_sale_line"
+            string="Products Line Labels"
+            model="sale.order"
+            report_type="qweb-pdf"
+            name="hickory_product_promotions.report_product_label_sale_order_line"
+            file="hickory_product_promotions.report_product_label_sale_order_line"
+            print_report_name="'Products Labels - %s' % (object.name)"
+            paperformat="print_product_label_paperformat"
+        />
+
+    </data>
+</odoo>

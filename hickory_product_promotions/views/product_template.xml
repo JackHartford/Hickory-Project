@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_product_common_inherit_bomextension" model="ir.ui.view">
+            <field name="name">product.product.common.bom.extension</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='attribute_line_ids']/tree/field[@name='attribute_id']" position="before">
+                    <field name="sequence" widget="handle"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

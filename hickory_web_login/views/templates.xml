@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<odoo>
+    <template id="inherit_assets_frontend" inherit_id="web.assets_frontend" name="OAuth Providers Assets">
+            <xpath expr="//link[last()]" position="after">
+                <link rel="stylesheet" type="text/scss" href="/hickory_web_login/static/src/css/form-style.css"/>
+            </xpath>
+    </template>
+    
+    <data>
+        <template id="auth_oauth.login" inherit_id="web.login" name="OAuth Login buttons">
+            <xpath expr="//form" position="before">
+                <div class="oe_login_form">
+                    <t t-call="auth_oauth.providers"/>
+                </div>
+            </xpath>
+        </template>
+
+<!--        <template id="hickory_web_login.fields" inherit_id="auth_signup.fields" name="Auth Signup/ResetPassword form fields">-->
+<!--            <xpath expr="//div[2]" position="replace">-->
+<!--                <div class="form-group field-name" style="display:none;">-->
+<!--                    <label for="name">Your Name</label>-->
+<!--                    <input type="text" name="name" t-att-value="name" id="name" class="form-control form-control-sm" placeholder="e.g. John Doe"-->
+<!--                    t-att-readonly="'readonly' if only_passwords else None"-->
+<!--                    t-att-autofocus="'autofocus' if login and not only_passwords else None" />-->
+<!--            </div>-->
+<!--               &lt;!&ndash;  <div class="oe_login_form">-->
+<!--                    <t t-call="auth_oauth.providers"/>-->
+<!--                </div> &ndash;&gt;-->
+
+<!--            </xpath>-->
+<!--        </template>-->
+
+        <template id="auth_signup.login" inherit_id="web.login" name="Sign up - Reset Password">
+            <xpath expr="//form" position="after">
+                <div class="oe_signup_form">
+                    <a style="font-size: 12px;" t-if="signup_enabled" t-attf-href="/web/signup?{{ keep_query() }}" class="btn btn-link ">Create an account without Google</a><br/>
+                    <a style="font-size: 12px;" t-if="reset_password_enabled" t-attf-href="/web/reset_password?{{ keep_query() }}" class="btn btn-link">Reset Password</a>
+                </div>    
+            </xpath>
+            <xpath expr="//button[@type='submit']" position="attributes">
+                <attribute name="class" add="hidden" separator=" "/>
+            </xpath>
+        </template>
+     </data>
+</odoo>
+        
