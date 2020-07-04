@@ -7,7 +7,7 @@
     "category": 'Product Accessory',
     'complexity': "normal",
     "description": """
-Allows to add accessories to products.
+Allows to add accessories (mandatory/optional) to products.
 =======================================================
 
 

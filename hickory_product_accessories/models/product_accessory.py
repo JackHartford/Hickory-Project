@@ -15,4 +15,3 @@ class ProductAccessory(models.Model):
 
 
     product_id = fields.Many2one('product.product', required=True, string='Product')
-    
