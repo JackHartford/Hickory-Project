@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+     <template id="assets_frontend" inherit_id="website.assets_frontend" name="Custom asset frontend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/hickory_frontend_filter/static/src/js/product_attribute.js" />
+        </xpath>
+    </template>
+     <template id="custom_product_attributes" inherit_id="website_sale.product" name="Custom product attributes">
+        <xpath expr="//t[@t-call='sale.variants']" position="before">
+            <input type="hidden" name="prod_variants" t-att-value="prod_variants"/>
+        </xpath>
+    </template>
+
+</odoo>
