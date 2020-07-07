@@ -16,7 +16,8 @@ class WebsiteSale(WebsiteSale):
         This route is called in JS by appending _website to the base route.
         """
         response = super(WebsiteSale, self).product(product, category='', search='', **kwargs)
-        product_variants = response.qcontext.get('product').product_variant_ids
+        product = response.qcontext.get('product')
+        product_variants = product.product_variant_ids
         prod_variants = []
         if product_variants:
             for p in product_variants:
@@ -27,6 +28,16 @@ class WebsiteSale(WebsiteSale):
                         variant[v_key] = att.name
                 prod_variants.append(variant)
         response.qcontext.update({
-            'prod_variants': prod_variants
+            'prod_variants': prod_variants,
+            'product': product
+        })
+        return response
+
+    @http.route(['/product_configurator/get_combination_info_website'], type='json', auth="public", methods=['POST'],
+                website=True)
+    def get_combination_info_website(self, product_template_id, product_id, combination, add_qty, **kw):
+        response = super(WebsiteSale, self).get_combination_info_website(product_template_id, product_id, combination, add_qty, **kw)
+        response.update({
+            'is_combination_possible': True
         })
         return response
