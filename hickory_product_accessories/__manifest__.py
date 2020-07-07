@@ -15,6 +15,7 @@ Allows to add accessories (mandatory/optional) to products.
     'website': 'http://www.novobi.com',
     "depends": ['stock', 'product'],
     'data': [
+                'security/ir.model.access.csv',
               'views/product_accessories_views.xml'
              ],
     'demo_xml': [],
