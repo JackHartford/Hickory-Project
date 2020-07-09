@@ -16,7 +16,8 @@ Allows to add accessories (mandatory/optional) to products.
     "depends": ['stock', 'product'],
     'data': [
                 'security/ir.model.access.csv',
-              'views/product_accessories_views.xml'
+                'views/assets.xml',
+                'views/product_accessories_views.xml'
              ],
     'demo_xml': [],
     'installable': True,
