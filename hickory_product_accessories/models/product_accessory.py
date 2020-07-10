@@ -14,6 +14,8 @@ class ProductAccessoryLine(models.Model):
 
     product_parent_id = fields.Many2one('product.template', 'Parent product')
     product_id = fields.Many2one('product.template', string='Product', ondelete='cascade', required=True)
+    valid_product_attribute_value_wnva_ids = fields.Many2many('product.attribute.value',
+                                                              related='product_parent_id.valid_product_attribute_value_wnva_ids')
     attribute_value_ids = fields.Many2many(
         'product.attribute.value','product_template_accessory_line_rel', string='Apply on Variants')
     is_mandatory = fields.Boolean(string='Is Mandatory')
