@@ -40,9 +40,9 @@ var _t = core._t;
                         $("<p class='mandatory-required'>You must add this item to the cart to continue the checkout process</p>").insertAfter($(item).closest(".td-product_name").find(".product-name"))
                     }
                 });
-                ev.preventDefault();
             }else{
                 this._super.apply(this, arguments);
+                $(".oe_optional_products_modal").closest(".modal ").modal('hide')
             }
         },
     });

@@ -5,6 +5,7 @@
             <link rel="stylesheet" href="/hickory_product_accessories/static/src/css/accessory.css"/>
             <script type="text/javascript" src="/hickory_product_accessories/static/src/js/product_accessory_handler.js"></script>
              <script type="text/javascript" src="/hickory_product_accessories/static/src/js/website_sale_option_handler.js"></script>
+             <script type="text/javascript" src="/hickory_product_accessories/static/src/js/product_configurator_modal_handler.js"></script>
         </xpath>
     </template>
 
