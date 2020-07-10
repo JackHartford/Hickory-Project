@@ -18,4 +18,31 @@
             </xpath>
         </field>
     </record>
+     <template id="cus_product_attributes" inherit_id="website_sale.product" name="Custom product attributes">
+        <xpath expr="//t[@t-call='sale.variants']" position="before">
+            <input type="hidden" name="mandatory_mapping" t-att-value="md_optional_products"/>
+        </xpath>
+    </template>
+
+<!--     <record id="product_template_form_view1" model="ir.ui.view">-->
+<!--        <field name="name">product.template.product.website.form1</field>-->
+<!--        <field name="model">product.template</field>-->
+<!--        <field name="inherit_id" ref="sale.product_template_form_view"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--             <xpath expr="//field[@name='optional_product_ids']/../.." position="attributes">-->
+<!--                 <attribute name="invisible">True</attribute>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--     <record id="product_template_form_view_madatory_custom" model="ir.ui.view">-->
+<!--        <field name="name">product.template.mandatory</field>-->
+<!--        <field name="model">product.template</field>-->
+<!--        <field name="inherit_id" ref="hickory_variant_explosion.product_template_form_view_madatory"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--             <xpath expr="//field[@name='mandatory_product_ids']/../.." position="attributes">-->
+<!--                 <attribute name="invisible">True</attribute>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
 </odoo>

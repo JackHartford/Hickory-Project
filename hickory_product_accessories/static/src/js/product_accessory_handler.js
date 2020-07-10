@@ -21,7 +21,7 @@ sAnimations.registry.Product_Accessory = sAnimations.Class.extend(ProductConfigu
     },
     onChangeCustomVariant: function (ev) {
         let arr = []
-        $('.oe_website_sale select.js_variant_change').each(function () {
+        $('.oe_website_sale .js_product.js_main_product select.js_variant_change').each(function () {
             let ele = this;
             let val = $(ele).val();
             let attr_name = $(ele).find("option[value='" + val + "']").attr("data-attribute_name")
@@ -31,10 +31,15 @@ sAnimations.registry.Product_Accessory = sAnimations.Class.extend(ProductConfigu
                 'value': value_name
             })
         });
+        var $parent = $(ev.target).closest('.js_product');
+        var productTemplateId = parseInt($parent.find('.product_template_id').val());
         return ajax.jsonRpc(this._getUri('/product_configurator/set_optional_product_accessory'), 'call', {
             'attrs': JSON.stringify(arr),
-        }).then(function (combinationData) {
-            self._onChangeCombination(ev, $parent, combinationData);
+            'product_template_id': productTemplateId,
+        }).then(function (res) {
+            if(res){
+                $("input[name='mandatory_mapping']").val(JSON.stringify(res))
+            }
         });
     },
 });
