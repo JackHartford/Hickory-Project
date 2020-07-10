@@ -13,7 +13,7 @@ Allows to add accessories (mandatory/optional) to products.
 
     """,
     'website': 'http://www.novobi.com',
-    "depends": ['stock', 'product'],
+    "depends": ['stock', 'product', 'hickory_variant_explosion'],
     'data': [
                 'security/ir.model.access.csv',
                 'views/assets.xml',
