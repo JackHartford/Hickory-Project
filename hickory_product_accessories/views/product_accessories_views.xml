@@ -3,7 +3,7 @@
     <record id="product_template_form_view" model="ir.ui.view">
         <field name="name">product.template.common.custom.form</field>
         <field name="model">product.template</field>
-        <field name = "inherit_id" ref="product.product_template_form_view" />
+        <field name = "inherit_id" ref="product.product_template_only_form_view" />
         <field name="arch" type="xml">
             <xpath expr="//page[@name='sales']" position="after">
                 <page name="accessories" string="Accessories" >
@@ -24,8 +24,8 @@
         </xpath>
     </template>
 
-     <record id="product_template_form_view1" model="ir.ui.view">
-        <field name="name">product.template.product.website.form1</field>
+     <record id="product_template_optional_form_view" model="ir.ui.view">
+        <field name="name">product.template.product.optional.form</field>
         <field name="model">product.template</field>
         <field name="inherit_id" ref="sale.product_template_form_view"/>
         <field name="arch" type="xml">
