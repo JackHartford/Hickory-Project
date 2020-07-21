@@ -14,11 +14,13 @@ var _t = core._t;
                 if($(".oe_optional_products_modal").length > 0){
                     let mandatory_prod_ids = $("input[name='mandatory_mapping']").val()
                      if (mandatory_prod_ids){
+                       $('.continue-process').prop('disabled',false)
                         mandatory_prod_ids = JSON.parse(mandatory_prod_ids);
                         if (mandatory_prod_ids && mandatory_prod_ids.length >0){
                             $.each(mandatory_prod_ids , function(i, item) {
                                  let ele = $(".oe_optional_products_modal .js_product div[data-oe-model='product.template'][data-oe-id='" + item +"']").closest('.td-product_name')
                                  $(ele).find('.float-left').prepend('<img class="mandatory_icon" src="/hickory_product_accessories/static/description/mandatory_icon.png" />')
+                                  $('.continue-process').prop('disabled',true)
                             });
                         }
                      }
@@ -30,6 +32,11 @@ var _t = core._t;
              this._super.apply(this, arguments);
              $(".oe_optional_products_modal .js_product.in_cart").find(".mandatory_icon").remove();
              $(".oe_optional_products_modal .js_product.in_cart").find(".mandatory-required").remove();
+             if($(".oe_optional_products_modal .js_product:not(.in_cart)").find(".mandatory_icon").length > 0){
+                $('.continue-process').prop('disabled',true)
+             }else{
+                $('.continue-process').prop('disabled',false)
+             }
         },
         _onModalBack: function (ev) {
             let cart = $(".oe_optional_products_modal .js_product:not(.in_cart)");
