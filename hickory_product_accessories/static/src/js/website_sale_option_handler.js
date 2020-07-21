@@ -12,9 +12,9 @@ var _t = core._t;
             this._super.apply(this, arguments)
              var refreshId = setInterval(function(){
                 if($(".oe_optional_products_modal").length > 0){
+                    $('.continue-process').prop('disabled',false)
                     let mandatory_prod_ids = $("input[name='mandatory_mapping']").val()
                      if (mandatory_prod_ids){
-                       $('.continue-process').prop('disabled',false)
                         mandatory_prod_ids = JSON.parse(mandatory_prod_ids);
                         if (mandatory_prod_ids && mandatory_prod_ids.length >0){
                             $.each(mandatory_prod_ids , function(i, item) {
