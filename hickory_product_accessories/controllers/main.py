@@ -17,7 +17,7 @@ class WebsiteSale(WebsiteSale):
         This route is called in JS by appending _website to the base route.
         """
         response = super(WebsiteSale, self).product(product, category='', search='', **kwargs)
-        product = response.qcontext.get('product')
+        product = response.qcontext.get('product').sudo()
         attrs = []
         attribute_values = product._get_first_possible_combination()
         for av in attribute_values:
@@ -35,7 +35,7 @@ class WebsiteSale(WebsiteSale):
         return response
 
     def get_optional_product(self, attribute_values, product_template, **kw):
-        product_accessory_line = request.env['product.accessory.line']
+        product_accessory_line = request.env['product.accessory.line'].sudo()
         accessory_lines = product_accessory_line.search([('product_parent_id', '=', product_template.id)])
         optional_product_ids = []
         mapping_mandatory = []
@@ -61,7 +61,7 @@ class WebsiteSale(WebsiteSale):
     @http.route(['/product_configurator/set_optional_product_accessory'], type='json', auth="public", methods=['POST'],
                 website=True)
     def set_optional_product_accessory(self, attrs, product_template_id, **kw):
-        product_template = request.env['product.template']
+        product_template = request.env['product.template'].sudo()
         if 'context' in kw:
             product_template = product_template.with_context(**kw.get('context'))
         product_template = product_template.browse(int(product_template_id))
