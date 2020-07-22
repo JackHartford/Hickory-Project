@@ -18,7 +18,9 @@ class WebsiteSale(WebsiteSale):
         response = super(WebsiteSale, self).product(product, category='', search='', **kwargs)
         product = response.qcontext.get('product')
         product_variants = product.product_variant_ids
-        prod_variants = []
+        prod_variants = {}
+        p_prod_variants = []
+        op_prod_variants = []
         if product_variants:
             for p in product_variants:
                 variant = {}
@@ -26,7 +28,21 @@ class WebsiteSale(WebsiteSale):
                     v_key = att.attribute_id.name if att.attribute_id else None
                     if v_key:
                         variant[v_key] = att.name
-                prod_variants.append(variant)
+                p_prod_variants.append(variant)
+            prod_variants[str(product.id)] = p_prod_variants
+            acc_line_ids = product.product_accessory_line_ids
+            for ac in acc_line_ids:
+                op_product_variants = ac.product_id.product_variant_ids
+                if op_product_variants:
+                    for p in op_product_variants:
+                        p_variant = {}
+                        for att in p.attribute_value_ids:
+                            v_key = att.attribute_id.name if att.attribute_id else None
+                            if v_key:
+                                p_variant[v_key] = att.name
+                        op_prod_variants.append(p_variant)
+                    prod_variants[str(ac.product_id.id)] = op_prod_variants
+
         response.qcontext.update({
             'prod_variants': prod_variants,
             'product': product

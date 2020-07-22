@@ -20,27 +20,46 @@ sAnimations.registry.Product_Accessory = sAnimations.Class.extend(ProductConfigu
         this._super.apply(this, arguments);
     },
     onChangeCustomVariant: function (ev) {
-        let arr = []
-        $('.oe_website_sale .js_product.js_main_product select.js_variant_change').each(function () {
-            let ele = this;
-            let val = $(ele).val();
-            let attr_name = $(ele).find("option[value='" + val + "']").attr("data-attribute_name")
-            let value_name = $(ele).find("option[value='" + val + "']").attr("data-value_name")
-            arr.push({
-                'attr': attr_name,
-                'value': value_name
-            })
-        });
-        var $parent = $(ev.target).closest('.js_product');
-        var productTemplateId = parseInt($parent.find('.product_template_id').val());
-        return ajax.jsonRpc(this._getUri('/product_configurator/set_optional_product_accessory'), 'call', {
-            'attrs': JSON.stringify(arr),
-            'product_template_id': productTemplateId,
-        }).then(function (res) {
-            if(res){
-                $("input[name='mandatory_mapping']").val(JSON.stringify(res))
-            }
-        });
+        let count = 0;
+        var self = this;
+        var refreshId = setInterval(function(){
+                if(count > 10){
+                     clearInterval(refreshId);
+                     window.isFinishFilter = false;
+                }
+                count+=1;
+                if(window.isFinishFilter){
+                     clearInterval(refreshId);
+                     window.isFinishFilter = false;
+                     if(ev.originalEvent != undefined){
+                        let arr = []
+                        $('.oe_website_sale .js_product.js_main_product select.js_variant_change').each(function () {
+                            let ele = this;
+                            let val = $(ele).val();
+                            let attr_name = $(ele).find("option[value='" + val + "']").attr("data-attribute_name")
+                            let value_name = $(ele).find("option[value='" + val + "']").attr("data-value_name")
+                            arr.push({
+                                'attr': attr_name,
+                                'value': value_name
+                            })
+                        });
+                        var $parent = $(ev.target).closest('.js_product');
+                        var productTemplateId = parseInt($parent.find('.product_template_id').val());
+                        $("#add_to_cart").bind('click', function(e){
+                                e.preventDefault();
+                        })
+                        return ajax.jsonRpc(self._getUri('/product_configurator/set_optional_product_accessory'), 'call', {
+                            'attrs': JSON.stringify(arr),
+                            'product_template_id': productTemplateId,
+                        }).then(function (res) {
+                            if(res){
+                                $("input[name='mandatory_mapping']").val(JSON.stringify(res))
+                                $("#add_to_cart").unbind('click')
+                            }
+                        });
+                    }
+                }
+        }, 100);
     },
 });
 
