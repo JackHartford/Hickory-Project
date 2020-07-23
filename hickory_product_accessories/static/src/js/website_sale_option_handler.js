@@ -18,7 +18,7 @@ var _t = core._t;
                         mandatory_prod_ids = JSON.parse(mandatory_prod_ids);
                         if (mandatory_prod_ids && mandatory_prod_ids.length >0){
                             $.each(mandatory_prod_ids , function(i, item) {
-                                 let ele = $(".oe_optional_products_modal .js_product div[data-oe-model='product.template'][data-oe-id='" + item +"']").closest('.td-product_name')
+                                 let ele = $(".oe_optional_products_modal .js_product input[class='product_template_id'][value='" + item +"']").closest('.td-img').next('.td-product_name')
                                  $(ele).find('.float-left').prepend('<img class="mandatory_icon" src="/hickory_product_accessories/static/description/mandatory_icon.png" />')
                                   $('.continue-process').prop('disabled',true)
                             });
