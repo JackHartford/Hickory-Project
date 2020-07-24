@@ -7,6 +7,7 @@ from werkzeug.exceptions import Forbidden, NotFound
 from odoo import fields, http, tools, _
 from odoo.http import request
 from odoo.addons.website_sale.controllers.main import WebsiteSale
+import json
 
 class WebsiteSale(WebsiteSale):
 
@@ -20,7 +21,6 @@ class WebsiteSale(WebsiteSale):
         product_variants = product.product_variant_ids
         prod_variants = {}
         p_prod_variants = []
-        op_prod_variants = []
         if product_variants:
             for p in product_variants:
                 variant = {}
@@ -32,6 +32,7 @@ class WebsiteSale(WebsiteSale):
             prod_variants[str(product.id)] = p_prod_variants
             acc_line_ids = product.product_accessory_line_ids
             for ac in acc_line_ids:
+                op_prod_variants = []
                 op_product_variants = ac.product_id.product_variant_ids
                 if op_product_variants:
                     for p in op_product_variants:
@@ -44,7 +45,7 @@ class WebsiteSale(WebsiteSale):
                     prod_variants[str(ac.product_id.id)] = op_prod_variants
 
         response.qcontext.update({
-            'prod_variants': prod_variants,
+            'prod_variants': json.dumps(prod_variants),
             'product': product
         })
         return response

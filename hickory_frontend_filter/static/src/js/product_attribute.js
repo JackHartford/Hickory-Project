@@ -1,7 +1,7 @@
 odoo.define('hickory.product_attribute', function (require) {
     "use strict";
     require('web.dom_ready');
-    var attrs = JSON.parse($("input[name='prod_variants']").val().replace(/'/g, '"'))
+    var attrs = JSON.parse($("input[name='prod_variants']").val())
     var isFinishFilter = false;
     $('.oe_website_sale').each(function (el) {
         var oe_website_sale = this;
@@ -45,7 +45,8 @@ odoo.define('hickory.product_attribute', function (require) {
                     let variant_attrs = $(parent).find('.list-inline-item.variant_attribute');
                     $.each(item, function(j, otVal) {
                          if($(variant_attrs).find("select").length > 0){
-                             let corOption = $(variant_attrs).find("option[data-attribute_name='" + j +"'][data-value_name='" + otVal +"']");
+                             let otValEscape = otVal.replace(/'/g, "\\'")
+                             let corOption = $(variant_attrs).find("option[data-attribute_name='" + j +"'][data-value_name='" + otValEscape +"']");
                              let sel = $(corOption).closest('select');
                              let val = $(corOption).val();
                              if($(sel)[0] != $(selection)[0]){
