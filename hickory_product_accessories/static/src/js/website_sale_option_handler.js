@@ -10,6 +10,7 @@ var _t = core._t;
         },
         _handleAdd: function (ev) {
             this._super.apply(this, arguments)
+            self = this;
              var refreshId = setInterval(function(){
                 if($(".oe_optional_products_modal").length > 0){
                     $('.continue-process').prop('disabled',false)
@@ -24,6 +25,12 @@ var _t = core._t;
                             });
                         }
                      }
+                     var $op_products = $(".oe_optional_products_modal .js_product:not(.in_cart)");
+
+                     $op_products.find("select.js_variant_change").each(function () {
+                         //  auto filter attributes first
+                         self._filterAttributes($op_products);
+                     });
                      clearInterval(refreshId);
                 }
              }, 100);
@@ -52,5 +59,31 @@ var _t = core._t;
                 $(".oe_optional_products_modal").closest(".modal ").modal('hide')
             }
         },
+        _filterAttributes: function (element) {
+           var oe_website_sale = element;
+            if ($(element).closest('.oe_optional_products_modal').length > 0){
+                oe_website_sale = $(element).closest('.oe_optional_products_modal')
+            }
+            $(oe_website_sale).find('select.js_variant_change').each(function () {
+                let ele = this;
+                let key = $(ele).closest('.list-inline-item.variant_attribute').attr('data-attribute_name')
+                let options = $(ele).find("option")
+                $.each(options, function(i, op) {
+                    let isMatch = false;
+                    var parent = $(this).closest('.js_product');
+                    var product_id = $(parent).find("input[class='product_template_id']").val()
+                    var a_attrs = JSON.parse($("input[name='prod_variants']").val())
+                    var p_attrs = a_attrs[product_id]
+                    $.each(p_attrs, function(j, item) {
+                        if (!item.hasOwnProperty(key) || (item.hasOwnProperty(key) && $(op).attr("data-value_name") == item[key])){
+                            isMatch = true;
+                       }
+                    });
+                    if (!isMatch){
+                        $(op).hide();
+                    }
+                });
+            });
+        }
     });
 })

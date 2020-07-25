@@ -68,26 +68,23 @@ odoo.define('hickory.product_attribute', function (require) {
             oe_website_sale = $(element).closest('.oe_optional_products_modal')
         }
         $(oe_website_sale).find('select.js_variant_change').each(function () {
-//            if ($(this).closest('.oe_optional_products_modal').length <= 0){
-                let ele = this;
-                let key = $(ele).closest('.list-inline-item.variant_attribute').attr('data-attribute_name')
-                let options = $(ele).find("option")
-                $.each(options, function(i, op) {
-                    let isMatch = false;
-                    var parent = $(this).closest('.js_product');
-                    var product_id = $(parent).find("input[class='product_template_id']").val()
-                    var p_attrs = attrs[product_id]
-                    $.each(p_attrs, function(j, item) {
-                        if (!item.hasOwnProperty(key) || (item.hasOwnProperty(key) && $(op).attr("data-value_name") == item[key])){
-                            isMatch = true;
-                       }
-                    });
-                    if (!isMatch){
-                        $(op).hide();
-                    }
+            let ele = this;
+            let key = $(ele).closest('.list-inline-item.variant_attribute').attr('data-attribute_name')
+            let options = $(ele).find("option")
+            $.each(options, function(i, op) {
+                let isMatch = false;
+                var parent = $(this).closest('.js_product');
+                var product_id = $(parent).find("input[class='product_template_id']").val()
+                var p_attrs = attrs[product_id]
+                $.each(p_attrs, function(j, item) {
+                    if (!item.hasOwnProperty(key) || (item.hasOwnProperty(key) && $(op).attr("data-value_name") == item[key])){
+                        isMatch = true;
+                   }
                 });
-//            }
-
+                if (!isMatch){
+                    $(op).hide();
+                }
+            });
         });
     }
 
