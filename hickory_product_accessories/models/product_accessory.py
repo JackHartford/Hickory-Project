@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import fields,api, models
 
 
 class ProductTemplate(models.Model):
@@ -19,3 +19,35 @@ class ProductAccessoryLine(models.Model):
     attribute_value_ids = fields.Many2many(
         'product.attribute.value','product_template_accessory_line_rel', string='Apply on Variants')
     is_mandatory = fields.Boolean(string='Is Mandatory')
+
+
+class ProductAttributeValue(models.Model):
+    _inherit = "product.attribute.value"
+
+    seq_priority = fields.Integer('Sort')
+
+    def write(self, vals):
+        res = super(ProductAttributeValue, self).write(vals)
+        seq = vals.get('sequence')
+        if seq and self.attribute_id.id:
+            attr_values = self.search([('attribute_id', '=', self.attribute_id.id)])
+            if attr_values and len(attr_values) > 0:
+                seq_priority = 0
+                for attr in attr_values:
+                    attr.write({
+                        'seq_priority': seq_priority
+                    })
+                    seq_priority += 1
+        return res
+
+    @api.model
+    def create(self, vals):
+        attr_id = vals.get('attribute_id')
+        if attr_id:
+            max_seq_priority = max(self.search([('attribute_id', '=', attr_id)]).mapped('seq_priority'))
+            if max_seq_priority and max_seq_priority > 0:
+                vals.update({
+                    'seq_priority': max_seq_priority + 1
+                })
+        res = super(ProductAttributeValue, self).write(vals)
+        return res
