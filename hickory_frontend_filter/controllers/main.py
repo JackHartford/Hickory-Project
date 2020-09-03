@@ -24,10 +24,15 @@ class WebsiteSale(WebsiteSale):
         if product_variants:
             for p in product_variants:
                 variant = {}
+                seq_priority_total = 0
                 for att in p.attribute_value_ids:
                     v_key = att.attribute_id.name if att.attribute_id else None
                     if v_key:
                         variant[v_key] = att.name
+                        seq_priority_total += att.seq_priority
+                variant.update({
+                    'seq_priority': seq_priority_total
+                })
                 p_prod_variants.append(variant)
             prod_variants[str(product.id)] = p_prod_variants
             acc_line_ids = product.product_accessory_line_ids
