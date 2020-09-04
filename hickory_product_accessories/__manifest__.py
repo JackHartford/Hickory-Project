@@ -20,6 +20,7 @@ Allows to add accessories (mandatory/optional) to products.
                 'views/product_accessories_views.xml'
              ],
     'demo_xml': [],
+    'qweb': ['static/src/xml/*.xml'],
     'installable': True,
     'application': False,
     'auto_install': False,

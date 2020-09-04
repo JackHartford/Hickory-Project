@@ -116,7 +116,7 @@ odoo.define('hickory.product_attribute', function (require) {
                  let isMatch = true;
                  $.each(item, function(j, otVal) {
                     $.each(p_attrs_dis, function(k, dis) {
-                        if(dis != false && j == k && otVal != dis){
+                        if(dis !== false && j == k && otVal != dis){
                             isMatch = false
                         }
                     });

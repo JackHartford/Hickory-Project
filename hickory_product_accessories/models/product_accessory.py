@@ -7,6 +7,22 @@ class ProductTemplate(models.Model):
     product_accessory_line_ids = fields.One2many('product.accessory.line', 'product_parent_id', string='Accessory Lines')
 
 
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
+
+    priority = fields.Integer(string='Priority')
+
+    @api.model
+    def cal_priority(self):
+        all_products = self.env['product.product'].search([])
+        if all_products:
+            for p in all_products:
+                if p.attribute_value_ids and len(p.attribute_value_ids) > 0:
+                    priority = sum([av.seq_priority for av in p.attribute_value_ids])
+                    p.write({
+                        'priority': priority
+                    })
+        return True
 
 class ProductAccessoryLine(models.Model):
     _name = "product.accessory.line"
@@ -24,7 +40,7 @@ class ProductAccessoryLine(models.Model):
 class ProductAttributeValue(models.Model):
     _inherit = "product.attribute.value"
 
-    seq_priority = fields.Integer('Sort')
+    seq_priority = fields.Integer('Order')
 
     def write(self, vals):
         res = super(ProductAttributeValue, self).write(vals)
@@ -51,3 +67,7 @@ class ProductAttributeValue(models.Model):
                 })
         res = super(ProductAttributeValue, self).write(vals)
         return res
+
+    @api.model
+    def cal_priority(self):
+        return True

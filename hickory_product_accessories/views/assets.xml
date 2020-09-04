@@ -9,4 +9,9 @@
         </xpath>
     </template>
 
+     <template id="assets_backend" name="account assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+             <script src="hickory_product_accessories/static/src/js/action_button.js" type="text/javascript"/>
+        </xpath>
+    </template>
 </odoo>
