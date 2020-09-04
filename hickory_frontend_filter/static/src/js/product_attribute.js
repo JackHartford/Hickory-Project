@@ -16,9 +16,9 @@ odoo.define('hickory.product_attribute', function (require) {
         filterAttributes(oe_website_sale);
         autoSelectDefaultVariant($(oe_website_sale).find('.js_product'));
         // auto fill on change
-        $(document).on('change', 'select.js_variant_change', function (event) {
+        $(document).on('change', 'select.js_variant_change.always', function (event) {
                 var $parent = $(this).closest('.js_product');
-                $parent.find("select.js_variant_change").each(function () {
+                $parent.find("select.js_variant_change.always").each(function () {
                      //  auto filter attributes first
                      filterAttributes($parent);
                 });
@@ -59,7 +59,7 @@ odoo.define('hickory.product_attribute', function (require) {
         attrs_dis = Object.assign(generateAttrDisplay(attrs));
         autoSelectDefaultVariant(js_product);
         attrs_dis = Object.assign(generateAttrDisplay(attrs));
-        v_attrs.find("option").show();
+        v_attrs.find("select:not('.no_variant') option").show();
     }
 
 //   select the top priority variant
@@ -73,7 +73,7 @@ odoo.define('hickory.product_attribute', function (require) {
                 return prev.seq_priority < curr.seq_priority ? prev : curr;
             });
              $.each(top_variant, function(j, otVal) {
-                 if($(v_attrs).find("select").length > 0){
+                 if($(v_attrs).find("select:not('.no_variant')").length > 0){
                      if(j != "seq_priority"){
                          let otValEscape = otVal.replace(/'/g, "\\'");
                          let corOption = $(v_attrs).find("option[data-attribute_name='" + j +"'][data-value_name='" + otValEscape +"']");
@@ -103,7 +103,7 @@ odoo.define('hickory.product_attribute', function (require) {
             p_attrs_dis[key] = value
             //hide all options which selected before
             let v_attrs = $(parent).find('.list-inline-item.variant_attribute');
-            v_attrs.find("option").hide();
+            v_attrs.find("select:not('.no_variant') option").hide();
             $.each(p_attrs_dis, function(i, item) {
                 if(i == key && item != false){
                     let otValEsc = value.replace(/'/g, "\\'");
@@ -130,7 +130,7 @@ odoo.define('hickory.product_attribute', function (require) {
                 if(item.hasOwnProperty(key) && item[key] == value){
                     //  match with correct attributes
                     $.each(item, function(j, otVal) {
-                         if($(v_attrs).find("select").length > 0){
+                         if($(v_attrs).find("select:not('.no_variant')").length > 0){
                              if(j != "seq_priority"){
                                  let otValEscape = otVal.replace(/'/g, "\\'");
                                  let corOption = $(v_attrs).find("option[data-attribute_name='" + j +"'][data-value_name='" + otValEscape +"']");
@@ -162,7 +162,7 @@ odoo.define('hickory.product_attribute', function (require) {
         if ($(element).closest('.oe_optional_products_modal').length > 0){
             oe_website_sale = $(element).closest('.oe_optional_products_modal');
         }
-        $(oe_website_sale).find('select.js_variant_change').each(function () {
+        $(oe_website_sale).find('select.js_variant_change.always').each(function () {
             let ele = this;
             let key = $(ele).closest('.list-inline-item.variant_attribute').attr('data-attribute_name');
             let options = $(ele).find("option");

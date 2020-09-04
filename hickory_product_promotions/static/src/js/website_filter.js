@@ -33,11 +33,11 @@ odoo.define('hickory_product_promotions.website_sale', function (require) {
                     var product = _(variant_ids).filter(function(variant){ return !_.difference(vals, variant).length; });
 
                     if (product.length) {
-                        $(this).css('display', 'block');
+//                        $(this).css('display', 'block');
                         $(this).removeClass('css_not_available');
 
                     } else {
-                        $(this).css('display', 'block');
+//                        $(this).css('display', 'block');
                     }
                 });
             });
