@@ -5,12 +5,16 @@ odoo.define('hickory.product_attribute', function (require) {
     var attrs_dis = Object.assign(generateAttrDisplay(attrs));
     var isFinishFilter = false;
     $(document).on("click","#reset_variant",function() {
-        resetToDefaultVariant();
+        resetToDefaultVariant($(this).closest('.js_product'));
+    });
+    $(document).on("click",".js_reset_variant",function() {
+        resetToDefaultVariant($(this).closest('.js_product'));
     });
     $('.oe_website_sale').each(function (el) {
         var oe_website_sale = this;
         // filter attribute on loa
         filterAttributes(oe_website_sale);
+        autoSelectDefaultVariant($(oe_website_sale).find('.js_product'));
         // auto fill on change
         $(document).on('change', 'select.js_variant_change', function (event) {
                 var $parent = $(this).closest('.js_product');
@@ -31,7 +35,7 @@ odoo.define('hickory.product_attribute', function (require) {
 //            }
         });
     });
-
+//    generate the priority of attributes
     function generateAttrDisplay(attrs){
          var attrs_d = {};
          if (attrs){
@@ -49,11 +53,41 @@ odoo.define('hickory.product_attribute', function (require) {
         }
         return attrs_d;
     }
-
-     function resetToDefaultVariant(){
-        let v_attrs = $(".js_main_product").find('.list-inline-item.variant_attribute');
-        v_attrs.find("option").show();
+//   reset to the top priority variant
+     function resetToDefaultVariant(js_product){
+        let v_attrs = $(js_product).find('.list-inline-item.variant_attribute');
         attrs_dis = Object.assign(generateAttrDisplay(attrs));
+        autoSelectDefaultVariant(js_product);
+        attrs_dis = Object.assign(generateAttrDisplay(attrs));
+        v_attrs.find("option").show();
+    }
+
+//   select the top priority variant
+    function autoSelectDefaultVariant(js_product){
+         let product_id = $(js_product).find("input[class='product_template_id']").val();
+         let v_attrs = $(js_product).find('.list-inline-item.variant_attribute');
+         let p_attrs = attrs[product_id];
+         if(p_attrs && p_attrs.length > 0){
+//             get top priority variant
+            let top_variant = p_attrs.reduce(function(prev, curr) {
+                return prev.seq_priority < curr.seq_priority ? prev : curr;
+            });
+             $.each(top_variant, function(j, otVal) {
+                 if($(v_attrs).find("select").length > 0){
+                     if(j != "seq_priority"){
+                         let otValEscape = otVal.replace(/'/g, "\\'");
+                         let corOption = $(v_attrs).find("option[data-attribute_name='" + j +"'][data-value_name='" + otValEscape +"']");
+                         let sel = $(corOption).closest('select');
+                         let val = $(corOption).val();
+                         corOption.show();
+                         $(sel).val(val);
+                     }
+                 }
+            });
+            let event = jQuery.Event( "change" );
+            event.originalEvent = "originalEvent";
+             $(js_product).find('.list-inline-item.variant_attribute select').eq(0).trigger(event)
+         }
     }
 
 //  auto filter attributes base on allow attributes values
@@ -113,7 +147,9 @@ odoo.define('hickory.product_attribute', function (require) {
                              }
                          }
                     });
-                    cur_priority = item['seq_priority']
+                    if (cur_priority == -1 || cur_priority > item['seq_priority']){
+                        cur_priority = item['seq_priority']
+                    }
                 }
             });
             window.isFinishFilter = true;

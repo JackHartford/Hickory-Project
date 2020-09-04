@@ -11,7 +11,12 @@ var _t = core._t;
         _handleAdd: function (ev) {
             this._super.apply(this, arguments)
             self = this;
+            let count = 0;
              var refreshId = setInterval(function(){
+                if(count > 10){
+                     clearInterval(refreshId);
+                }
+                count+=1;
                 if($(".oe_optional_products_modal").length > 0){
                     $('.continue-process').prop('disabled',false)
                     let mandatory_prod_ids = $("input[name='mandatory_mapping']").val()
@@ -30,6 +35,9 @@ var _t = core._t;
                      $op_products.find("select.js_variant_change").each(function () {
                          //  auto filter attributes first
                          self._filterAttributes($op_products);
+                     });
+                     $op_products.each(function () {
+                         $(this).find(".td-product_name .product-name").after('<div class="btn mt8 js_reset_variant" >Reset</div>')
                      });
                      clearInterval(refreshId);
                 }

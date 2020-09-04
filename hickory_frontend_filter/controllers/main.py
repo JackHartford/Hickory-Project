@@ -34,7 +34,7 @@ class WebsiteSale(WebsiteSale):
                     'seq_priority': seq_priority_total
                 })
                 p_prod_variants.append(variant)
-            prod_variants[str(product.id)] = p_prod_variants
+            prod_variants[str(product.id)] = sorted(p_prod_variants, key=lambda x: x['seq_priority'], reverse=False)
             acc_line_ids = product.product_accessory_line_ids
             for ac in acc_line_ids:
                 op_prod_variants = []
@@ -42,12 +42,17 @@ class WebsiteSale(WebsiteSale):
                 if op_product_variants:
                     for p in op_product_variants:
                         p_variant = {}
+                        seq_priority_total = 0
                         for att in p.attribute_value_ids:
                             v_key = att.attribute_id.name if att.attribute_id else None
                             if v_key:
                                 p_variant[v_key] = att.name
+                                seq_priority_total += att.seq_priority
+                        p_variant.update({
+                            'seq_priority': seq_priority_total
+                        })
                         op_prod_variants.append(p_variant)
-                    prod_variants[str(ac.product_id.id)] = op_prod_variants
+                    prod_variants[str(ac.product_id.id)] = sorted(op_prod_variants, key=lambda x: x['seq_priority'], reverse=False)
 
         response.qcontext.update({
             'prod_variants': json.dumps(prod_variants),
