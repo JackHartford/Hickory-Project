@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <template xml:space="preserve">
+    <t t-extend="ListView.buttons">
+      <t t-jquery="button.o_list_button_add" t-operation="after">
+        <button t-if="widget.modelName == 'product.product'" class="btn btn-secondary oe_action_button" type="button" accesskey="f">Refresh</button>
+        <button t-if="widget.modelName == 'product.attribute.value'" class="btn btn-secondary oe_action_button_att_value" type="button" accesskey="f">Refresh</button>
+      </t>
+    </t>
+  </template>
