@@ -9,6 +9,7 @@ class ProductTemplate(models.Model):
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
+    _order = 'default_code, name, priority'
 
     priority = fields.Integer(string='Priority')
 
