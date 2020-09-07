@@ -84,11 +84,13 @@ var _t = core._t;
                     var product_id = $(parent).find("input[class='product_template_id']").val()
                     var a_attrs = JSON.parse($("input[name='prod_variants']").val())
                     var p_attrs = a_attrs[product_id]
-                    $.each(p_attrs, function(j, item) {
-                        if (!item.hasOwnProperty(key) || (item.hasOwnProperty(key) && $(op).attr("data-value_name") == item[key])){
-                            isMatch = true;
-                       }
-                    });
+                    if (p_attrs) {
+                         $.each(p_attrs, function(j, item) {
+                            if (!item.hasOwnProperty(key) || (item.hasOwnProperty(key) && $(op).attr("data-value_name") == item[key])){
+                                isMatch = true;
+                           }
+                        });
+                    }
                     if (!isMatch){
                         $(op).hide();
                     }
