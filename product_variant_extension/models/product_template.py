@@ -39,7 +39,7 @@ class ProductTemplate(models.Model):
 
 class ProductAttributeValue(models.Model):
     _inherit = "product.attribute.value"
-    # _order = 'attribute_id'
+    _order = 'attribute_id, sequence, seq_priority'
 
 
 class ProductTemplateAttributeLine(models.Model):

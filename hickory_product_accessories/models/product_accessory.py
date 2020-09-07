@@ -48,7 +48,7 @@ class ProductAttributeValue(models.Model):
         if seq and self.attribute_id.id:
             attr_values = self.search([('attribute_id', '=', self.attribute_id.id)])
             if attr_values and len(attr_values) > 0:
-                seq_priority = 0
+                seq_priority = self.attribute_id.sequence * 10
                 for attr in attr_values:
                     attr.write({
                         'seq_priority': seq_priority
@@ -60,12 +60,14 @@ class ProductAttributeValue(models.Model):
     def create(self, vals):
         attr_id = vals.get('attribute_id')
         if attr_id:
+            max_sequence = max(self.search([('attribute_id', '=', attr_id)]).mapped('sequence'))
             max_seq_priority = max(self.search([('attribute_id', '=', attr_id)]).mapped('seq_priority'))
             if max_seq_priority and max_seq_priority > 0:
                 vals.update({
-                    'seq_priority': max_seq_priority + 1
+                    'seq_priority': max_seq_priority + 1,
+                    'sequence': max_sequence + 1
                 })
-        res = super(ProductAttributeValue, self).write(vals)
+        res = super(ProductAttributeValue, self).create(vals)
         return res
 
     @api.model
