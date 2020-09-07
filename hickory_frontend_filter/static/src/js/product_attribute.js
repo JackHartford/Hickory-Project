@@ -72,7 +72,7 @@ odoo.define('hickory.product_attribute', function (require) {
             let top_variant = p_attrs.reduce(function(prev, curr) {
                 return prev.seq_priority < curr.seq_priority ? prev : curr;
             });
-             $.each(top_variant, function(j, otVal) {
+            $.each(top_variant, function(j, otVal) {
                  if($(v_attrs).find("select:not('.no_variant')").length > 0){
                      if(j != "seq_priority"){
                          let otValEscape = otVal.replace(/'/g, "\\'");
@@ -86,7 +86,7 @@ odoo.define('hickory.product_attribute', function (require) {
             });
             let event = jQuery.Event( "change" );
             event.originalEvent = "originalEvent";
-             $(js_product).find('.list-inline-item.variant_attribute select').eq(0).trigger(event)
+            $(js_product).find('.list-inline-item.variant_attribute select').eq(0).trigger(event)
          }
     }
 

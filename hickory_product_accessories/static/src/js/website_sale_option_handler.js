@@ -37,7 +37,8 @@ var _t = core._t;
                          self._filterAttributes($op_products);
                      });
                      $op_products.each(function () {
-                         $(this).find(".td-product_name .product-name").after('<div class="btn mt8 js_reset_variant" >Reset</div>')
+                         $(this).find(".td-price .js_add.btn").before('<div class="btn mt8 js_reset_variant" >Reset</div>')
+                          $(this).find('.js_reset_variant').eq(0).trigger('click')
                      });
                      clearInterval(refreshId);
                 }
@@ -46,6 +47,7 @@ var _t = core._t;
          _onOptionsUpdateQuantity: function (quantity) {
              this._super.apply(this, arguments);
              $(".oe_optional_products_modal .js_product.in_cart").find(".mandatory_icon").remove();
+             $(".oe_optional_products_modal .js_product.in_cart").find(".js_reset_variant").remove();
              $(".oe_optional_products_modal .js_product.in_cart").find(".mandatory-required").remove();
              if($(".oe_optional_products_modal .js_product:not(.in_cart)").find(".mandatory_icon").length > 0){
                 $('.continue-process').prop('disabled',true)
@@ -72,7 +74,7 @@ var _t = core._t;
             if ($(element).closest('.oe_optional_products_modal').length > 0){
                 oe_website_sale = $(element).closest('.oe_optional_products_modal')
             }
-            $(oe_website_sale).find('select.js_variant_change').each(function () {
+            $(oe_website_sale).find('select.js_variant_change.always').each(function () {
                 let ele = this;
                 let key = $(ele).closest('.list-inline-item.variant_attribute').attr('data-attribute_name')
                 let options = $(ele).find("option")
