@@ -16,13 +16,13 @@ odoo.define('hickory.product_attribute', function (require) {
         filterAttributes(oe_website_sale);
         autoSelectDefaultVariant($(oe_website_sale).find('.js_product'));
         // auto fill on change
-        $(document).on('change', 'select.js_variant_change.always', function (event) {
-                var $parent = $(this).closest('.js_product');
+        var onChangeVariant = function(ele) {
+              var $parent = $(ele).closest('.js_product');
                 $parent.find("select.js_variant_change.always").each(function () {
                      //  auto filter attributes first
                      filterAttributes($parent);
                 });
-                let selection = this;
+                let selection = ele;
                  let attr_name = $(selection).prev('.attribute_name').html();
                  let val = $(selection).val();
                  let attr_val = $(selection).find("option[value='"+ val +"']").attr("data-value_name");
@@ -32,9 +32,21 @@ odoo.define('hickory.product_attribute', function (require) {
                     'value': attr_val,
                     'selection': selection
                  });
-//            }
+        }
+        var isClick = false;
+        $(document).on('click', 'select.js_variant_change.always', function (event) {
+            if (isClick) {
+                onChangeVariant(this)
+            }
+            isClick = !isClick;
+        });
+
+        $(document).on('focusout', 'select.js_variant_change.always', function (event) {
+            isClick = false;
         });
     });
+
+
 //    generate the priority of attributes
     function generateAttrDisplay(attrs){
          var attrs_d = {};
