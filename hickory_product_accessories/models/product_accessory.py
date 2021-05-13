@@ -73,4 +73,4 @@ class ProductAttributeValue(models.Model):
 
     @api.model
     def cal_priority(self):
-        return True
+        return True 
