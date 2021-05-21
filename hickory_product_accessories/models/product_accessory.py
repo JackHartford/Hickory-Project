@@ -38,6 +38,26 @@ class ProductAccessoryLine(models.Model):
     is_mandatory = fields.Boolean(string='Is Mandatory')
 
 
+class ProductAttribute(models.Model):
+    _inherit = "product.attribute"
+
+    @api.model
+    def create(self, vals):
+        attr_values = self.search([])
+        if attr_values:
+            max_sequence = max(attr_values.mapped('sequence'))
+            if max_sequence:
+                vals.update({
+                    'sequence': max_sequence + 1
+                })
+        res = super(ProductAttribute, self).create(vals)
+        for attr in res.value_ids:
+            attr.write({
+                'sequence': max_sequence + 1
+            })
+        return res
+
+
 class ProductAttributeValue(models.Model):
     _inherit = "product.attribute.value"
 
@@ -59,18 +79,20 @@ class ProductAttributeValue(models.Model):
 
     @api.model
     def create(self, vals):
+        res = super(ProductAttributeValue, self).create(vals)
         attr_id = vals.get('attribute_id')
         if attr_id:
-            max_sequence = max(self.search([('attribute_id', '=', attr_id)]).mapped('sequence'))
-            max_seq_priority = max(self.search([('attribute_id', '=', attr_id)]).mapped('seq_priority'))
-            if max_seq_priority and max_seq_priority > 0:
-                vals.update({
+            attr_id = self.search([('attribute_id', '=', attr_id)])
+            if attr_id:
+                max_sequence = max(attr_id.mapped('sequence'))
+                max_seq_priority = max(attr_id.mapped('seq_priority'))
+                res.write({
                     'seq_priority': max_seq_priority + 1,
                     'sequence': max_sequence + 1
                 })
-        res = super(ProductAttributeValue, self).create(vals)
+
         return res
 
     @api.model
     def cal_priority(self):
-        return True 
+        return True
