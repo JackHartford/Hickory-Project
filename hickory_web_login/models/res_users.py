@@ -31,7 +31,7 @@ class ResUsers(models.Model):
 
         # create a copy of the template user (attached to a specific partner_id if given)
         values['active'] = True
-        values['customer'] = True
+        values['customer_rank'] = True
         try:
             with self.env.cr.savepoint():
                 return template_user.with_context(no_reset_password=True).copy(values)
