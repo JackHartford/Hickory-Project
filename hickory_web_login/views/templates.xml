@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <odoo>
-    <template id="inherit_assets_frontend" inherit_id="web.assets_frontend" name="OAuth Providers Assets">
+    <!-- <template id="inherit_assets_frontend" inherit_id="web.assets_frontend" name="OAuth Providers Assets">
             <xpath expr="//link[last()]" position="after">
                 <link rel="stylesheet" type="text/scss" href="/hickory_web_login/static/src/css/form-style.css"/>
             </xpath>
-    </template>
+    </template> -->
     
     <data>
         <template id="auth_oauth.login" inherit_id="web.login" name="OAuth Login buttons">
