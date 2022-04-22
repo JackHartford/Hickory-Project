@@ -1,4 +1,4 @@
-from odoo import http, models, fields, _
+from odoo import http
 from odoo.http import request, route
 from odoo.addons.portal.controllers.web import Home
 from odoo.addons.portal.controllers.portal import CustomerPortal
@@ -16,15 +16,14 @@ class Website(Home):
         print(response,request.uid, "Testing")
         if not redirect and request.params['login_success']:
             if request.env['res.users'].browse(request.uid).has_group('base.group_user'):
-                redirect = b'/web?' + request.httprequest.query_string
+                redirect = '/web?' + request.httprequest.query_string.decode('utf-8')
             else:
                 redirect = '/my/account'
             print(redirect)
-            return http.redirect_with_hash(redirect)
+            return request.redirect(redirect)
         return response
 
 class CustomCustomerPortal(CustomerPortal):
-
     
     @route(['/my/account'], type='http', auth='user', website=True)
     def account(self, redirect=None, **post):
