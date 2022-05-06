@@ -12,7 +12,7 @@
                     string="Mark as Paid" class="btn-primary"
                     attrs="{'invisible': [('state', 'not in', ['sent', 'sale'])]}"/> -->
 <!--                    attrs="{'invisible': ['|', ('can_directly_mark_as_paid', '=', False), ('state', 'not in', ['sent', 'sale'])]}"/>-->
-            <!-- </xpath> -->
+            </xpath>
             <xpath expr="//button[@id='action_confirm']" position="attributes">
                 <attribute name="attrs">{'invisible': [('state', 'not in', ['sent'])]}</attribute>
 <!--                <attribute name="attrs">{'invisible': ['|',('can_directly_mark_as_paid', '=', True), ('state', 'not in', ['sent'])]}</attribute>-->
