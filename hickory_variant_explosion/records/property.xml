@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
-        <!-- <record id="property_example_key" model="ir.property" forcecreate="True">
-            <field name="name">property_example</field>
-        </record> -->
-    </data>
-</odoo>
