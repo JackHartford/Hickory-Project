@@ -3,7 +3,8 @@
 
     <template id="products_attributes_hickory" name="Product Attributes Hickory" inherit_id="website_sale.products_attributes">
         <xpath expr="//select[hasclass('css_attribute_select')]/.." position="attributes">
-            <attribute name="t-if" separator="" add="" remove="" value="a.display_type in ['select', 'hidden']"></attribute>
+            <!-- <attribute name="t-if" separator="" add="" remove="" value="a.display_type in ['select', 'hidden']"></attribute> -->
+            <attribute name="t-if">a.display_type in ['select', 'hidden']</attribute>
         </xpath>
          <xpath expr="//t[@t-foreach='attributes']" position="before">
             <t t-set="attributes" t-value="attributes.filtered(lambda a: a.display_type != 'hidden')"/>
