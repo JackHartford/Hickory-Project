@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import logging
-
 from ast import literal_eval
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
-from odoo.osv import expression
+from odoo import models, _
 from odoo.tools.misc import ustr
 from odoo.addons.auth_signup.models.res_users import SignupError
 
@@ -31,7 +27,7 @@ class ResUsers(models.Model):
 
         # create a copy of the template user (attached to a specific partner_id if given)
         values['active'] = True
-        values['customer'] = True
+        values['customer_rank'] = True
         try:
             with self.env.cr.savepoint():
                 return template_user.with_context(no_reset_password=True).copy(values)

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
-        <!-- <record id="parameter_example_key" model="ir.config_parameter" forcecreate="True">
-            <field name="key">example.key</field>
-            <field name="value">False</field>
-        </record> -->
-    </data>
-</odoo>
