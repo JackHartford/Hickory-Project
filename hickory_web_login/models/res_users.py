@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-import logging
-
 from ast import literal_eval
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
-from odoo.osv import expression
+from odoo import models, _
 from odoo.tools.misc import ustr
 from odoo.addons.auth_signup.models.res_users import SignupError
 
