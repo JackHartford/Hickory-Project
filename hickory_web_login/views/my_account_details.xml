@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<template id="portal_my_details_extended" inherit_id="portal.portal_my_details">
-        <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[5]" position='attributes'>
+        <xpath expr="//form/div[hasclass('o_portal_details')]//label[@for='company_name']/.." position='attributes'>
             <attribute name="t-attf-class" separator=" " add='d-none'/>
         </xpath>
-        <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[6]" position='attributes'>
+        <xpath expr="//form/div[hasclass('o_portal_details')]//label[@for='vat']/.." position='attributes'>
             <attribute name="t-attf-class" separator=" " add='d-none'/>
         </xpath>
-        <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[7]" position='attributes'>
-            <attribute name="t-attf-class" separator=" " add='d-none'/>
-        </xpath>
+
         <!-- <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[8]" position='attributes'>
             <attribute name="t-attf-class" separator=" " add='d-none'/>
         </xpath> -->
@@ -22,10 +20,11 @@
         <!-- <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[11]" position='attributes'>
             <attribute name="t-attf-class" separator=" " add='d-none'/>
         </xpath> -->
-        <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[12]" position='attributes'>
+
+        <xpath expr="//form/div[hasclass('o_portal_details')]//label[@for='zipcode']/.." position='attributes'>
             <attribute name="t-attf-class" separator=" " add='d-none'/>
         </xpath>
-        <xpath expr="//form/div[hasclass('o_portal_details')]/div/div/div[14]" position='attributes'>
+        <xpath expr="//form/div[hasclass('o_portal_details')]//label[@for='state_id']/.." position='attributes'>
             <attribute name="t-attf-class" separator=" " add='d-none'/>
         </xpath>
     </template>
