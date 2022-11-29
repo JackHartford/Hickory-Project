@@ -18,7 +18,7 @@ Hickory: Loign Page Cutomization
     * deleted the "Log in with Odoo" button
         """,
     # 'depends': ['auth_signup', 'auth_oauth', 'web', 'web_studio', 'website_sale', 'portal'],
-    'depends': ['auth_signup', 'auth_oauth', 'web', 'website_sale'],
+    'depends': ['auth_signup', 'auth_oauth', 'website_sale'],
     'data': [
         "security/remove_shipping_security.xml",
         "data/data.xml",
@@ -27,6 +27,10 @@ Hickory: Loign Page Cutomization
     ],
     'demo': [
     ],
-    'qweb': [],
+    'assets': {
+        'web.assets_frontend': [
+            'hickory_web_login/static/src/**/*',
+        ],
+    },
     'installable': True,
 }

@@ -1,9 +1,0 @@
-*.pyc
-_om
-_make_tmp
-_lib
-*.iml
-*.idea
-*.*~
-*.DS_Store
-.vscode
