@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    
-    <template id="website_sale.product_variants">
+
+    <template id="products_attributes_hickory" name="Product Attributes Hickory" inherit_id="website_sale.products_attributes">
+        <xpath expr="//select[hasclass('css_attribute_select')]/.." position="attributes">
+            <!-- <attribute name="t-if" separator="" add="" remove="" value="a.display_type in ['select', 'hidden']"></attribute> -->
+            <attribute name="t-if">a.display_type in ['select', 'hidden']</attribute>
+        </xpath>
+         <xpath expr="//t[@t-foreach='attributes']" position="before">
+            <t t-set="attributes" t-value="attributes.filtered(lambda a: a.display_type != 'hidden')"/>
+        </xpath>
+    </template>
+
+    <!-- <template id="website_sale.product_variants">
       <t t-set="attribute_value_ids" t-value="get_attribute_value_ids(product)"/>
       <ul t-attf-class="list-unstyled js_add_cart_variants #{ul_class}" t-att-data-attribute_value_ids="json.dumps(attribute_value_ids)">
         <t t-foreach="product.attribute_line_ids.sorted(key=lambda x: x.attribute_id.sequence)" t-as="variant_id">
@@ -68,8 +78,8 @@
           </li>
         </t>
       </ul>
-    </template>
-    <template id="website_sale.products_attributes" inherit_id="website_sale.products" active="False" customize_show="True" name="Product Attribute's Filters">
+    </template> -->
+    <!-- <template id="website_sale.products_attributes" inherit_id="website_sale.products" active="False" customize_show="True" name="Product Attribute's Filters">
         <xpath expr="//div[@id='products_grid_before']" position="inside">
             <form class="js_attributes" method="get">
                 <input type="hidden" name="search" t-att-value="search" />
@@ -119,5 +129,5 @@
         <xpath expr="//div[@id='products_grid']" position="attributes">
             <attribute name="class">col-lg-9</attribute>
         </xpath>
-    </template>
+    </template> -->
 </odoo>
